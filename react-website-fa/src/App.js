@@ -15,6 +15,9 @@ import Divider from './Divider/Divider';
 import Carousel from './SearchBar/Carousel';
 import ProtectedRoute from './Protected';
 import { AuthProvider } from './AuthContext';
+import Inference from './UploadPage/Inference';
+import UploadEventVideo from './EventDetection/UploadEventVideo';
+import Event from './EventDetection/Event';
 
 
 
@@ -43,6 +46,9 @@ export default function App() {
         <Route path='/dashboard' element={<Dashboard/>}/>
         <Route path='/divider' element={<Divider/>}/>
         <Route path='/carousel' element={<Carousel/>}/>
+        <Route path='/inference' element={<Inference/>}/>
+        <Route path='/uploadevent' element={<UploadEventVideo/>}/>
+        <Route path='/event' element={<Event/>}/>
 
       </Routes>
       </AuthProvider>
