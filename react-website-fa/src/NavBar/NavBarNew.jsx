@@ -17,6 +17,7 @@ import './NavBarNew.css'
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { AuthContext } from "../AuthContext";
 
 
 
@@ -29,6 +30,8 @@ function ResponsiveAppBar(props) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(Boolean);
   const [decoded,setDecoded] = React.useState("");
   const [reloadKey, setReloadKey] = React.useState(0);
+  const {logout} = React.useContext(AuthContext);
+  
  
   const navigate = useNavigate();
 
@@ -56,10 +59,7 @@ function ResponsiveAppBar(props) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
     if (isLoggedIn == true) {
-      navigate('/')
-      window.location.reload();
-    }
-    else {
+      logout();
       navigate('/')
     }
   }

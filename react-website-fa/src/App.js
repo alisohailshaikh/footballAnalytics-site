@@ -26,30 +26,88 @@ export default function App() {
     <div className="App">
       <AuthProvider>
       <Routes> 
-        {/* <Route default exact path="/" element={<Login/>} />
+        <Route default exact path="/" element={<Login/>} />
+        <Route exact path="/register" element={<Register/>} />
         <Route
             path="/home"
             element={
               <ProtectedRoute>
                 <HomePage/> 
               </ProtectedRoute>
-            } */}
-          {/* /> */}
-        <Route path= "/home" element={<HomePage/>}/>
-        <Route exact path="/register" element={<Register/>} />
-        <Route exact path="/home" element={<HomePage/>} />
-        <Route exact path="/search" element={<Search/>} />
-        <Route exact path="/analysis" element={<FirstPagee/>} />
-        <Route exact path="/about" element={<SearchBar/>} />
-        <Route path='/upload' element={<UploadVideo/>}/>
-        <Route path='/names' element={<EnterNames/>}/>
-        <Route path='/dashboard' element={<Dashboard/>}/>
-        <Route path='/divider' element={<Divider/>}/>
-        <Route path='/carousel' element={<Carousel/>}/>
-        <Route path='/inference' element={<Inference/>}/>
-        <Route path='/uploadevent' element={<UploadEventVideo/>}/>
-        <Route path='/event' element={<Event/>}/>
-
+            }
+        />
+        <Route
+            path="/search"
+            element={
+              <ProtectedRoute>
+                <Search/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/analysis"
+            element={
+              <ProtectedRoute>
+                <FirstPagee/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/upload"
+            element={
+              <ProtectedRoute>
+                <UploadVideo/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/divider"
+            element={
+              <ProtectedRoute>
+                <Divider/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/carousel"
+            element={
+              <ProtectedRoute>
+                <Carousel/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/inference"
+            element={
+              <ProtectedRoute>
+                <Inference/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/uploadevent"
+            element={
+              <ProtectedRoute>
+                <UploadEventVideo/> 
+              </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/event"
+            element={
+              <ProtectedRoute>
+                <Event/> 
+              </ProtectedRoute>
+            }
+        />
       </Routes>
       </AuthProvider>
     </div>
