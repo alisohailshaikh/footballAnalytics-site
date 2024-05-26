@@ -18,6 +18,8 @@ import {
  AlertTitle,
   Alert, 
 } from '@mui/material'
+import { useContext } from "react";
+import { AuthContext } from "../AuthContext";
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -115,6 +117,9 @@ function Login() {
   const [pwerror, setPwError] = useState(false);
   const [error,setError] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+  const [ loading, setIsLoading ] = useState(null);
+
   
 
   const [resetKey, setResetKey] = useState(0);
@@ -127,7 +132,7 @@ function Login() {
     navigate('/register')
   }
 
-  const handleLogin = () => {
+  const handleLogin = async (e) => {
       console.log("in login func")
       if (email == ""){
        setEmailError(true)
@@ -142,34 +147,23 @@ function Login() {
           "user_email": `${email}`,
           "user_password": `${pw}`
         });
-        
-        let config = {
-          method: 'post',
-          maxBodyLength: Infinity,
-          url: 'http://127.0.0.1:5000/users',
-          headers: { 
-            'Content-Type': 'application/json'
-          },
-          data : data
-        };
-        
-        axios.request(config)
-        .then((response) => {
-          var token = (JSON.stringify(response.data));
-          localStorage.setItem("token", token);
+        setIsLoading(true); // Set loading state before API call
+        try {
+          const token = await login(data);
+          console.log(token)
           navigate('/home')
-        })
-        .catch((error) => {
+        } catch (error) {
+          console.error('Login failed:', error);
           setError(true)
-          console.log(error);
-        });
-
+        } finally {
+          setIsLoading(false); // Reset loading state after API call
+        }
       }
 
   }
-  React.useEffect(() => {
-    localStorage.removeItem("token");
-  })
+  // React.useEffect(() => {
+  //   localStorage.removeItem("token");
+  // })
 
   const handleChange = (e) => {
     setEmail(e.target.value);
@@ -178,7 +172,7 @@ function Login() {
 
   return (
     <div>
-      <ResponsiveAppBar/>
+      {/* <ResponsiveAppBar/> */}
       <div className="page-container">
         <div className="left-side"></div>
         <Box

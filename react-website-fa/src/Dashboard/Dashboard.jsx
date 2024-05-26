@@ -3,36 +3,36 @@ import './Dashboard.css'
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import { jsPDF } from "jspdf";
+import { useEffect, useState } from "react";
+import Typography from "@mui/material/Typography";
 
 
 
 
 
 function Dashboard() {
-    const getPDF = () => {
-        const container = document.getElementById('dashboard');
-        console.log(container);
-        htmlToImage.toPng(document.getElementById('pdf'), { quality: 0.95 })
-        .then(function (dataUrl) {
-          console.log("Image data URL:", dataUrl);
-          var link = document.createElement('a');
-          console.log(link);
-          link.download = 'my-image-name.jpeg';
-          const pdf = new jsPDF();
-          const imgProps= pdf.getImageProperties(dataUrl);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-          pdf.addImage(dataUrl, 'PNG', 0, 0,pdfWidth, pdfHeight);
-          pdf.save("download.pdf"); 
-        });
-    }
+
+    const [refresh, setRefresh] = useState(true)
+    // useEffect(() => {
+    //     window.open("https://app.powerbi.com/groups/me/reports/2f2d475b-8bf0-4242-a6b5-6df9a7daacb5/c0c24bf5c8c6a09371dc?experience=power-bi", '_blank', 'noopener,noreferrer');
+    // },[]);
+    useEffect(() => {
+        setTimeout(() => {
+            setRefresh(false)
+            console.log("myBool is now true"); // Optional: Log the change
+          }, 20000);
+    })
     return (
         <div className="dashboard-container" id="pdf">
-            {/* <ResponsiveAppBar /> */}
+            <ResponsiveAppBar />
+            {refresh? <Typography variant="h4" component="h1" className="search-heading">
+            GETTING UR DASHBAORD READY.....
+          </Typography>:
+            
             <div className="db-page-container" id="dashboard">
-                <iframe title="fa" width="1140" height="541.25" src="https://app.powerbi.com/view?r=eyJrIjoiNTA3NGJjYmMtZWFhMy00MWM2LTk4OWYtOGY5YmFmMGQ2MzJjIiwidCI6ImZlZTNiOTE2LTAxYzEtNDk4Ny1hNjQ2LWUxOTM0MzJiOWVhYSIsImMiOjl9" frameBorder="0" allowFullScreen={true}></iframe>
-            </div>
-            <button onClick={getPDF}>export</button>
+            <iframe title="test-fyp" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiOWJiZGI5ZDYtMjA2NC00ZWZkLWEyODMtMTRhMTczOGNlMmY2IiwidCI6ImZlZTNiOTE2LTAxYzEtNDk4Ny1hNjQ2LWUxOTM0MzJiOWVhYSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+            </div> }
+
         </div>
     );
 }

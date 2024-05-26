@@ -13,7 +13,7 @@ import event from './eventdetection.png'
 import { useEffect } from "react";
 
 
-function HomePageComponent() {
+function HomePage() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = React.useState(Boolean);
   const ProceedButton = styled(Button)(({ theme }) => ({
@@ -85,27 +85,5 @@ function HomePageComponent() {
   );
 }
 
-
-function HomePage() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(Boolean);
-  useEffect(() => {
-    var token = localStorage.getItem("token");
-      if (token == null) {
-        setIsLoggedIn(false);
-      } else {
-        setIsLoggedIn(true)
-      }
-  },[])
-
-  return (
-    <div>
-    {isLoggedIn ? <HomePageComponent/> : <div><ResponsiveAppBar/>
-    PLEASE LOGIN</div>}
-    </div>
-
-  )
-
-
-}
 
 export default HomePage;

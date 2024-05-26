@@ -13,14 +13,26 @@ import Register from './Register/Register';
 import Dashboard from './Dashboard/Dashboard';
 import Divider from './Divider/Divider';
 import Carousel from './SearchBar/Carousel';
+import ProtectedRoute from './Protected';
+import { AuthProvider } from './AuthContext';
 
 
 
 export default function App() {
   return (
     <div className="App">
+      <AuthProvider>
       <Routes> 
-        <Route default exact path="/" element={<Login/>} />
+        {/* <Route default exact path="/" element={<Login/>} />
+        <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomePage/> 
+              </ProtectedRoute>
+            } */}
+          {/* /> */}
+        <Route path= "/home" element={<HomePage/>}/>
         <Route exact path="/register" element={<Register/>} />
         <Route exact path="/home" element={<HomePage/>} />
         <Route exact path="/search" element={<Search/>} />
@@ -33,6 +45,7 @@ export default function App() {
         <Route path='/carousel' element={<Carousel/>}/>
 
       </Routes>
+      </AuthProvider>
     </div>
   );
 }

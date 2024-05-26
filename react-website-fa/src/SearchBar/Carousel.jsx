@@ -64,8 +64,9 @@ export default function Carousel() {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        apiplayerstats(matchid);
+        // apiplayerstats(matchid);
         setProgress(75);
+        navigate('/dashboard')
       })
       .catch((error) => {
         console.log(error);
@@ -130,7 +131,7 @@ export default function Carousel() {
         .then((response) => {
           console.log(JSON.stringify(response.data));
           setProgress(25);
-          apigetshots(JSON.stringify(response.data));
+          apiavgpos(JSON.stringify(response.data));
         })
         .catch((error) => {
           console.log(error);
