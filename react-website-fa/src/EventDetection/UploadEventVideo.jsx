@@ -1,15 +1,18 @@
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage'
+import { getStorage, ref, uploadBytesResumable, listAll } from 'firebase/storage'
 import {
   LinearProgress, AlertTitle,
   Alert, Button,
   FormControl, Container,
-  Grid, Typography
+  Grid, Typography, 
+  Card, CardContent, CardActions
 } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ResponsiveAppBar from '../NavBar/NavBarNew'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate } from 'react-router-dom'
+import OldUploads from './OldUploads'
+
 
 function UploadEventVideo(props) {
 
@@ -18,8 +21,27 @@ function UploadEventVideo(props) {
   const [uploadProgress, setUploadProgress] = useState(0)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [runs, setRuns] = useState([])
   const storage = getStorage()
   const navigate = useNavigate()
+
+
+  useEffect(() => {
+    let oldRuns = []
+    const videosRef = ref(storage, '/')
+    listAll(videosRef)
+      .then(res => {
+        res.prefixes.forEach((prefixRef) => {
+          if (prefixRef.name !== 'upload') {
+            oldRuns.push(prefixRef.name)
+          }
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      setRuns(oldRuns)
+  }, [])
 
   // Set file after it's uploaded
   const getFileUrl = (e) => {
@@ -42,7 +64,7 @@ function UploadEventVideo(props) {
     if (file == null) {
       setError('Please select a file to upload')
       return
-    } 
+    }
     const unique_id = uuidv4()
     const videoRef = ref(storage, `upload/${unique_id}${file.name}`)
     setUploadId(`${unique_id}${file.name}`)
@@ -65,16 +87,16 @@ function UploadEventVideo(props) {
       setError('Error in processing video, please try again.')
       return
     }
-    
+
     navigate(`/event/${uploadId}`)
   }
 
   return (
     <div>
       <ResponsiveAppBar></ResponsiveAppBar>
-      <Container maxWidth={"sm"}>
+      <Container maxWidth={"md"}>
         <Grid
-          marginTop={22}
+          marginTop={12}
           container
           direction={'column'}
           justifyContent={'center'}
@@ -179,8 +201,16 @@ function UploadEventVideo(props) {
             null
         }
 
+        <Grid
+          container
+          spacing={2}
+        >
+          <OldUploads items={runs} />
+        </Grid>
 
       </Container>
+
+
 
     </div>
   );
