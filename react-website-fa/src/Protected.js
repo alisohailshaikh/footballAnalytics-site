@@ -12,13 +12,7 @@ const ProtectedRoute = ({ children }) => {
   console.log(isAuthenticated)
   console.log(token)
 
-  // return (
-  //   isAuthenticated ? (
-  //     return Chil// Render child component if authenticated
-  //   ) : (
-  //     <Navigate to="/" replace /> // Redirect to login if not authenticated
-  //   )
-  // );
+  
 
   if (isAuthenticated) {
     return children;

@@ -16,22 +16,22 @@ function Dashboard() {
     // useEffect(() => {
     //     window.open("https://app.powerbi.com/groups/me/reports/2f2d475b-8bf0-4242-a6b5-6df9a7daacb5/c0c24bf5c8c6a09371dc?experience=power-bi", '_blank', 'noopener,noreferrer');
     // },[]);
-    useEffect(() => {
-        setTimeout(() => {
-            setRefresh(false)
-            console.log("myBool is now true"); // Optional: Log the change
-          }, 20000);
-    })
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setRefresh(false)
+    //         console.log("myBool is now true"); // Optional: Log the change
+    //       }, 20000);
+    // })
     return (
         <div className="dashboard-container" id="pdf">
             <ResponsiveAppBar />
-            {refresh? <Typography variant="h4" component="h1" className="search-heading">
+            {/* {refresh? <Typography variant="h4" component="h1" className="search-heading">
             GETTING UR DASHBAORD READY.....
-          </Typography>:
+          </Typography>: */}
             
             <div className="db-page-container" id="dashboard">
-            <iframe title="test-fyp" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiOWJiZGI5ZDYtMjA2NC00ZWZkLWEyODMtMTRhMTczOGNlMmY2IiwidCI6ImZlZTNiOTE2LTAxYzEtNDk4Ny1hNjQ2LWUxOTM0MzJiOWVhYSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
-            </div> }
+              <iframe title="test-fyp" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiZGMzYjE3MGQtYjkzNi00ZTllLWIxNDItNjVlMzJiM2IwZGZjIiwidCI6ImZlZTNiOTE2LTAxYzEtNDk4Ny1hNjQ2LWUxOTM0MzJiOWVhYSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+            </div> 
 
         </div>
     );

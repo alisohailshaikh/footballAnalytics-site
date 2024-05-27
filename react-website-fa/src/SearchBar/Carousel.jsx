@@ -32,6 +32,47 @@ export default function Carousel() {
 
   const navigate = useNavigate();
 
+  const apigetOverview = (matchid) => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://127.0.0.1:5000/overview/${matchid}`,
+      headers: { }
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      setProgress(100)
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 10000);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  const apigetstats = (matchid) => {
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'http://127.0.0.1:5000/stats/11368670',
+      headers: { }
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      setProgress(80)
+      apigetOverview(matchid)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
+  }
+
   const apiplayerstats = (matchid) => {
     let config = {
       method: "get",
@@ -44,34 +85,15 @@ export default function Carousel() {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setProgress(100);
+        setProgress(60);
+        apigetstats(matchid)
+        // apigetOverview(matchid)
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const apiavgpos = (matchid) => {
-    console.log("in api get avg pos");
-    let config = {
-      method: "get",
-      maxBodyLength: Infinity,
-      url: `http://127.0.0.1:5000/avgpos/${matchid}`,
-      headers: {},
-    };
-    console.log(config.url);
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        // apiplayerstats(matchid);
-        setProgress(75);
-        navigate('/dashboard')
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const apigetshots = (matchid) => {
     console.log("in api get shots");
     let config = {
@@ -85,8 +107,8 @@ export default function Carousel() {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        apiavgpos(matchid);
-        setProgress(50);
+        setProgress(40);
+        apiplayerstats(matchid);
       })
       .catch((error) => {
         console.log(error);
@@ -130,8 +152,8 @@ export default function Carousel() {
         .request(config0)
         .then((response) => {
           console.log(JSON.stringify(response.data));
-          setProgress(25);
-          apiavgpos(JSON.stringify(response.data));
+          setProgress(20);
+          apigetshots(JSON.stringify(response.data));
         })
         .catch((error) => {
           console.log(error);

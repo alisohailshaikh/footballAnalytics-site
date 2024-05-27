@@ -21,6 +21,7 @@ const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
+      setIsAuthenticated(true);
     }
     setIsLoading(false);
   }, []);
