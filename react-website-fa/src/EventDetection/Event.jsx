@@ -80,8 +80,8 @@ function Event(props) {
                     </Typography>
                     {result && taskId &&
                         <Typography gutterBottom>
-                            Task ID: {taskId} | {result.ready ? 'Ready' : 'In Process'} | {result.successful ? 'Succesfuly Completed' : 
-                            result.state}
+                            Task ID: {taskId} | {result.ready ? 'Ready' : 'In Process'} | {result.successful ? 'Succesfuly Completed' :
+                                result.state}
                         </Typography>
                     }
                 </Grid>
@@ -93,16 +93,13 @@ function Event(props) {
                     >
                         Get Status
                     </Button>
-
-                    <Button
-                        variant="contained"
-                        disabled={!result || !result.ready}
-                        sx={{
-                            marginLeft: 1
-                        }}
-                    >
-                        View Insights
-                    </Button>
+                    {result && result.value &&
+                        <a href={result.value.csv}>
+                            <Button variant="contained" sx={{marginLeft: 2}}>
+                                Download CSV
+                            </Button>
+                        </a>
+                    }
                 </Grid>
 
                 <Grid item marginTop={1}>
@@ -112,6 +109,7 @@ function Event(props) {
                     <Typography>
                         Videos will appear below after successfull execution of process. Click Get Status to update.
                     </Typography>
+                    
                 </Grid>
             </Grid>
 
@@ -126,7 +124,7 @@ function Event(props) {
                 >
                     <Grid item xs={12}>
                         <CardMedia
-                            src={result.value}
+                            src={result.value.event_vid}
                             component={'video'}
                             autoPlay
                             controls

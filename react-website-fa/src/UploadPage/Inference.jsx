@@ -11,7 +11,7 @@ function Inference(props) {
 
     const fetchResult = async (task_id) => {
         try {
-            const response = await fetch(`http://localhost:5000/infer/detect/result/${task_id}`)
+            const response = await fetch(`http://35.208.181.197:3000/infer/detect/result/${task_id}`)
             if (response.ok) {
                 const res = await response.json()
                 setResult(res)
@@ -35,7 +35,7 @@ function Inference(props) {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/infer/detect/${uploadId}`, {
+            const response = await fetch(`http://35.208.181.197:3000/infer/detect/${uploadId}`, {
                 method: 'GET'
             })
             if (response.ok) {
