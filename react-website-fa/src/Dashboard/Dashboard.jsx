@@ -30,7 +30,7 @@ function Dashboard() {
           </Typography>: */}
             
             <div className="db-page-container" id="dashboard">
-              <iframe title="test-fyp" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiZGMzYjE3MGQtYjkzNi00ZTllLWIxNDItNjVlMzJiM2IwZGZjIiwidCI6ImZlZTNiOTE2LTAxYzEtNDk4Ny1hNjQ2LWUxOTM0MzJiOWVhYSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+              <iframe title="test-fyp" width="1200" height="700" src="https://app.powerbi.com/view?r=eyJrIjoiZGMzYjE3MGQtYjkzNi00ZTllLWIxNDItNjVlMzJiM2IwZGZjIiwidCI6ImZlZTNiOTE2LTAxYzEtNDk4Ny1hNjQ2LWUxOTM0MzJiOWVhYSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
             </div> 
 
         </div>

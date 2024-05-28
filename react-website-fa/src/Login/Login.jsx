@@ -150,7 +150,6 @@ function Login() {
         setIsLoading(true); // Set loading state before API call
         try {
           const token = await login(data);
-          console.log(token)
           navigate('/home')
         } catch (error) {
           console.error('Login failed:', error);

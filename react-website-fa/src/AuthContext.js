@@ -2,6 +2,8 @@ import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
+
 const AuthContext = createContext({
   token: '',
   isAuthenticated: false,
@@ -16,6 +18,7 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate()
+  const api = process.env.REACT_APP_BASE_API;
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -28,20 +31,21 @@ const AuthProvider = ({ children }) => {
 
   
   const login = async (data) => {
+    
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://127.0.0.1:5000/users',
+      url: `${api}/users`,
       headers: {
         'Content-Type': 'application/json'
       },
       data: data
     };
+
   
     try {
       const response = await axios.request(config);
       const token = response.data; // Assuming your API response has a "token" property
-      console.log(token)
       localStorage.setItem("token", token);
       setToken(token);
       setIsAuthenticated(true);

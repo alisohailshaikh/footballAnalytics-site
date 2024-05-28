@@ -18,6 +18,7 @@ import { AuthProvider } from './AuthContext';
 import Inference from './UploadPage/Inference';
 import UploadEventVideo from './EventDetection/UploadEventVideo';
 import Event from './EventDetection/Event';
+import MatchDashboard from './UploadPage/MatchDashboard';
 
 
 
@@ -27,6 +28,7 @@ export default function App() {
       <AuthProvider>
       <Routes> 
         <Route default exact path="/" element={<Login/>} />
+        <Route exact path="/matchdashboard" element={<MatchDashboard/>} />
         <Route exact path="/register" element={<Register/>} />
         <Route
             path="/home"

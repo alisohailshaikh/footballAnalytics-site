@@ -1,0 +1,33 @@
+.home-stats{
+    display: flex;
+    margin-left: 150px;
+    transform: translateY(160px);
+}
+
+.home-count, .home-somethin {
+    flex:1;
+    color:#0c2222;
+}
+
+.home-db-image{
+    width:1000px;
+    height:auto;
+    z-index: 1;
+}
+
+.images-tab-home{
+    display: flex;
+    max-width: 900px;
+    margin-left: 50px;
+}
+
+.img-home-left, .img-home-right{
+    flex:1;
+    transform: translateY(-350px);
+}
+
+.akela-picture-home {
+    margin-left: 120px;
+    transform: translateY(-410px);
+}
+

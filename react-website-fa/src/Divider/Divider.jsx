@@ -26,26 +26,7 @@ export default function Divider() {
 
   
 
-  React.useEffect(() => {
-      const fetchImages = async () => {
-        const listRef = ref(
-          storage,
-          "gs://uploadimage-2ed90.appspot.com/upload"
-        );
   
-        try {
-          const res = await listAll(listRef);
-          const urls = await Promise.all(
-            res.items.map((item) => getDownloadURL(item))
-          );
-          setImageUrls(urls);
-          console.log(urls)
-        } catch (error) {
-          console.error("Error fetching images: ", error);
-        }
-      };
-      fetchImages();
-    }, []);
   return (
     <div style={{ textAlign: "center", justifyContent: "center" }}>
       <ResponsiveAppBar></ResponsiveAppBar>

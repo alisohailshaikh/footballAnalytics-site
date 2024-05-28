@@ -1,0 +1,30 @@
+.homeaway {
+    margin-top: 50px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.db {
+    flex:1
+}
+
+.previous-left, .next-right {
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.next-bt, .previous-bt{
+    width:100px;
+    transform: translateY(100px);
+}
+
+
+
+
+  
+
+
+

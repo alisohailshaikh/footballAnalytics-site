@@ -118,6 +118,7 @@ function Register() {
     const [error,setError] = useState(false);
     const [emptyError,setEmptyError] = useState(false);
     const navigate = useNavigate();
+    const api = process.env.REACT_APP_BASE_API;
 
     const handleusername = (e) => {
       setEmptyError(false);
@@ -184,7 +185,7 @@ function Register() {
           let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://127.0.0.1:5000/users',
+            url: `${api}/users`,
             headers: { 
               'Content-Type': 'application/json'
             },

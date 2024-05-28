@@ -9,8 +9,7 @@ const ProtectedRoute = ({ children }) => {
     return <div>Loading...</div>; // Display loading indicator while checking
   }
 
-  console.log(isAuthenticated)
-  console.log(token)
+  
 
   
 

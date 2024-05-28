@@ -16,8 +16,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Backdrop from "@material-ui/core/Backdrop";
-import SportsSoccerSharpIcon from '@mui/icons-material/SportsSoccerSharp';
-import {footballFacts,links,imgs} from './arrays.js'
+import SportsSoccerSharpIcon from "@mui/icons-material/SportsSoccerSharp";
+import { footballFacts, links, imgs } from "./arrays.js";
 
 export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -28,69 +28,86 @@ export default function Carousel() {
   const [progress, setProgress] = React.useState(0);
   const [search, setSearch] = useState(true);
   const [open, setOpen] = useState(false);
-
+  const [apierror, setApiError] = useState(false);
+  const api = process.env.REACT_APP_BASE_API;
 
   const navigate = useNavigate();
 
   const apigetOverview = (matchid) => {
     let config = {
-      method: 'get',
+      method: "get",
       maxBodyLength: Infinity,
-      url: `http://127.0.0.1:5000/overview/${matchid}`,
-      headers: { }
+      url: `${api}/overview/${matchid}`,
+      headers: {},
     };
-    
-    axios.request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-      setProgress(100)
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 10000);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setProgress(100);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 10000);
+      })
+      .catch((error) => {
+        console.log(error);
+        setSearch(true);
+          setApiError(true);
+          setTimeout(() => {
+            setApiError(false);
+          }, 3000);
+      });
+  };
 
   const apigetstats = (matchid) => {
     let config = {
-      method: 'get',
+      method: "get",
       maxBodyLength: Infinity,
-      url: 'http://127.0.0.1:5000/stats/11368670',
-      headers: { }
+      url: `${api}/stats/${matchid}`,
+      headers: {},
     };
-    
-    axios.request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-      setProgress(80)
-      apigetOverview(matchid)
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    
-  }
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setProgress(80);
+        apigetOverview(matchid);
+      })
+      .catch((error) => {
+        console.log(error);
+        setSearch(true);
+          setApiError(true);
+          setTimeout(() => {
+            setApiError(false);
+          }, 3000);
+      });
+  };
 
   const apiplayerstats = (matchid) => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `http://127.0.0.1:5000/playerstats/${matchid}`,
+      url: `${api}/playerstats/${matchid}`,
       headers: {},
     };
-    console.log(config.url);
+
     axios
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
         setProgress(60);
-        apigetstats(matchid)
+        apigetstats(matchid);
         // apigetOverview(matchid)
       })
       .catch((error) => {
         console.log(error);
+        setSearch(true);
+          setApiError(true);
+          setTimeout(() => {
+            setApiError(false);
+          }, 3000);
       });
   };
 
@@ -99,10 +116,10 @@ export default function Carousel() {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `http://127.0.0.1:5000/playershots/${matchid}`,
+      url: `${api}/playershots/${matchid}`,
       headers: {},
     };
-    console.log(config.url);
+
     axios
       .request(config)
       .then((response) => {
@@ -112,6 +129,11 @@ export default function Carousel() {
       })
       .catch((error) => {
         console.log(error);
+        setSearch(true);
+          setApiError(true);
+          setTimeout(() => {
+            setApiError(false);
+          }, 3000);
       });
   };
   const handlesubmit = () => {
@@ -141,7 +163,7 @@ export default function Carousel() {
       let config0 = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://127.0.0.1:5000/matchid",
+        url: `${api}/matchid`,
         headers: {
           "Content-Type": "application/json",
         },
@@ -157,6 +179,11 @@ export default function Carousel() {
         })
         .catch((error) => {
           console.log(error);
+          setSearch(true);
+          setApiError(true);
+          setTimeout(() => {
+            setApiError(false);
+          }, 3000);
         });
     }
   };
@@ -211,6 +238,12 @@ export default function Carousel() {
           {error ? (
             <Alert severity="error" variant="filled">
               <AlertTitle>Teams cannot be the same</AlertTitle>
+              {error}
+            </Alert>
+          ) : null}
+          {apierror ? (
+            <Alert severity="error" variant="filled">
+              <AlertTitle>There was a problem searching your match. Please try again</AlertTitle>
               {error}
             </Alert>
           ) : null}
@@ -324,8 +357,6 @@ export default function Carousel() {
           </Button>
         </div>
       ) : (
-
-
         //LOADING COMPONENET HERE
         <div className="load-container">
           <Typography variant="h4" component="h1" className="load-text">
@@ -338,17 +369,12 @@ export default function Carousel() {
               value={progress}
               size={300}
             />
-            <div className="circular-progress-num">
-              {`${progress}%`}
-            </div>
+            <div className="circular-progress-num">{`${progress}%`}</div>
           </div>
           <div className="fact-container">
-           
             <Typography variant="h6" component="h1" className="fact">
-            {footballFacts[Math.floor(Math.random() * footballFacts.length)]}
-          </Typography>
-                
-
+              {footballFacts[Math.floor(Math.random() * footballFacts.length)]}
+            </Typography>
           </div>
           <Button
             className="cancel-button"
