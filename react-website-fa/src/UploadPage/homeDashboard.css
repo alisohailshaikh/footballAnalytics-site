@@ -1,7 +1,7 @@
 .home-stats{
     display: flex;
     margin-left: 150px;
-    transform: translateY(160px);
+    transform: translateY(170px);
 }
 
 .home-count, .home-somethin {

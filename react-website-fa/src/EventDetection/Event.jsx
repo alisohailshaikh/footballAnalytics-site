@@ -9,9 +9,11 @@ function Event(props) {
     const [err, setErr] = useState('')
     const [result, setResult] = useState({})
 
+    const base_api = process.env.REACT_APP_INFER_API
+
     const fetchResult = async (task_id) => {
         try {
-            const response = await fetch(`http://localhost:5000/infer/events/result/${task_id}`)
+            const response = await fetch(`${base_api}/infer/events/result/${task_id}`)
             if (response.ok) {
                 const res = await response.json()
                 setResult(res)
@@ -24,25 +26,27 @@ function Event(props) {
     }
 
     const startInference = async () => {
-
-        if (localStorage.getItem('event_upload_id') === uploadId) {
-            if (localStorage.getItem('event_task_id')) {
-                const task_id = localStorage.getItem('event_task_id')
-                setTaskId(task_id)
-                fetchResult(task_id)
-            }
-            return
-        }
-
         try {
-            const response = await fetch(`http://localhost:5000/infer/events/${uploadId}`, {
+            const response = await fetch(`${base_api}/infer/events/${uploadId}`, {
                 method: 'GET'
             })
             if (response.ok) {
                 const res = await response.json()
-                localStorage.setItem('event_upload_id', uploadId)
-                localStorage.setItem('event_task_id', res.result_id)
-                setTaskId(res.result_id)
+                if (res.exists) {
+                    const task_id = localStorage.getItem('event_task_id')
+                    if (!task_id) {
+                        setErr('Please view existing task results from Upload page')
+                    }
+                    setTaskId(task_id)
+                    fetchResult(task_id)
+                }
+                else if (res.pending) {
+                    setErr('A task with this video already exists or is in process - will appear in upload page once done.')
+                }
+                else {
+                    setTaskId(res.result_id)
+                    fetchResult(taskId)
+                }
             }
         } catch (err) {
             console.log(err)
@@ -78,12 +82,18 @@ function Event(props) {
                     <Typography variant="h4">
                         Event Detection Results
                     </Typography>
+
                     {result && taskId &&
                         <Typography gutterBottom>
                             Task ID: {taskId} | {result.ready ? 'Ready' : 'In Process'} | {result.successful ? 'Succesfuly Completed' :
                                 result.state}
                         </Typography>
                     }
+                    {result && !result.value &&
+                        <Typography>
+                            Do not refresh, stay on this page to see status.
+                            All tasks after completion will apear on the uploads page.
+                        </Typography>}
                 </Grid>
 
                 <Grid item marginTop={1}>
@@ -95,7 +105,7 @@ function Event(props) {
                     </Button>
                     {result && result.value &&
                         <a href={result.value.csv}>
-                            <Button variant="contained" sx={{marginLeft: 2}}>
+                            <Button variant="contained" sx={{ marginLeft: 2 }}>
                                 Download CSV
                             </Button>
                         </a>
@@ -109,7 +119,7 @@ function Event(props) {
                     <Typography>
                         Videos will appear below after successfull execution of process. Click Get Status to update.
                     </Typography>
-                    
+
                 </Grid>
             </Grid>
 

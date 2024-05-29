@@ -9,12 +9,21 @@ import './MatchDashboard.css'
 import Button from "@mui/material/Button";
 import HomeDashboard from "./homeDashboard";
 import AwayDashboard from "./awayDashboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
 export default function MatchDashboard() {
   const [index,setIndex] = useState(0);
+  const [result, setResult] = useState({})
+  const [taskid, settaskid] = useState('')
+  const [err, setErr] = useState('')
+  const [loaded, setLoaded] = useState(false)
+  const navigate = useNavigate()
+
+  const base_api = process.env.REACT_APP_INFER_API
+
   const handleNext = () => {
     setIndex((index%3)+1);
     console.log("from match");
@@ -25,6 +34,40 @@ export default function MatchDashboard() {
     console.log("from match");
     console.log(index)
   }
+
+  const fetchResult = async () => {
+      if (localStorage.getItem('detect_task_id')) {
+        const task_id = localStorage.getItem('detect_task_id')
+        try {
+            const response = await fetch(`${base_api}/infer/detect/result/${task_id}`)
+            if (response.ok) {
+              const res = await response.json()
+              if (res) {
+                setResult(res.value)
+                settaskid(task_id)
+                setLoaded(true)
+              }
+              else {
+                navigate(`/upload`)
+              }
+            }
+        } catch (err) {
+          console.log(err)
+        }
+      }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('detect_upload_id')) {
+      fetchResult()
+        .then(() => {
+        })
+    }
+    else {
+      navigate('/home')
+    }
+  }, [])
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -48,7 +91,9 @@ export default function MatchDashboard() {
             }}
           >
             <div className="home-db">
-             <HomeDashboard index={index}/>
+             {loaded ? 
+             <HomeDashboard id={index} json={result}/> :
+             null}
             </div>
           </TabPanel>
           <TabPanel
@@ -61,7 +106,9 @@ export default function MatchDashboard() {
             }}
           >
               <div className="away-db">
-             <AwayDashboard index={index}/>
+             {result ?
+             <AwayDashboard id={index} json={result}/>:
+             null}
             </div>
           </TabPanel>
         </Tabs>

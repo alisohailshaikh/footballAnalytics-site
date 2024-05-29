@@ -2,7 +2,7 @@
 .away-stats{
     display: flex;
     margin-left: 150px;
-    transform: translateY(160px);
+    transform: translateY(170px);
 }
 
 .away-count, .away-somethin {

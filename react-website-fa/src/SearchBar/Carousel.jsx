@@ -15,7 +15,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Backdrop from "@material-ui/core/Backdrop";
 import SportsSoccerSharpIcon from "@mui/icons-material/SportsSoccerSharp";
 import { footballFacts, links, imgs } from "./arrays.js";
 

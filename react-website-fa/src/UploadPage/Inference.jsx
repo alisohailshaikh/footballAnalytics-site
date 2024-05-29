@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Button, CardMedia, Container, Grid, Link, TextField, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ResponsiveAppBar from "../NavBar/NavBarNew";
 import { useEffect, useState } from "react";
 
@@ -8,10 +8,12 @@ function Inference(props) {
     const [taskId, setTaskId] = useState(null)
     const [err, setErr] = useState('')
     const [result, setResult] = useState({})
+    const navigate = useNavigate()
+    const base_api = process.env.REACT_APP_INFER_API
 
     const fetchResult = async (task_id) => {
         try {
-            const response = await fetch(`http://35.208.181.197:3000/infer/detect/result/${task_id}`)
+            const response = await fetch(`${base_api}/infer/detect/result/${task_id}`)
             if (response.ok) {
                 const res = await response.json()
                 setResult(res)
@@ -25,24 +27,27 @@ function Inference(props) {
 
     const startInference = async () => {
 
-        if (localStorage.getItem('detect_upload_id') === uploadId) {
-            if (localStorage.getItem('detect_task_id')) {
-                const task_id = localStorage.getItem('detect_task_id')
-                setTaskId(task_id)
-                fetchResult(task_id)
-            }
-            return
-        }
-
         try {
-            const response = await fetch(`http://35.208.181.197:3000/infer/detect/${uploadId}`, {
+            const response = await fetch(`${base_api}/infer/detect/${uploadId}`, {
                 method: 'GET'
             })
             if (response.ok) {
                 const res = await response.json()
-                localStorage.setItem('detect_upload_id', uploadId)
-                localStorage.setItem('detect_task_id', res.result_id)
-                setTaskId(res.result_id)
+                if (res.exists) {
+                    const task_id = localStorage.getItem('detect_task_id')
+                    if (!task_id) {
+                        setErr('Please view existing task results from Upload page')
+                    }
+                    setTaskId(task_id)
+                    fetchResult(task_id)
+                }
+                else if (res.pending) {
+                    setErr('A task with this video already exists or is in process - will appear in upload page once done.')
+                }
+                else {
+                    setTaskId(res.result_id)
+                    fetchResult(taskId)
+                }
             }
         } catch (err) {
             console.log(err)
@@ -78,12 +83,18 @@ function Inference(props) {
                     <Typography variant="h4">
                         Inference Status
                     </Typography>
+
                     {result && taskId &&
                         <Typography gutterBottom>
-                            Task ID: {taskId} | {result.ready ? 'Ready' : 'In Process'} | {result.successful ? 'Succesfuly Completed' : 
-                            result.state}
+                            Task ID: {taskId} | {result.ready ? 'Ready' : 'In Process'} | {result.successful ? 'Succesfuly Completed' :
+                                result.state}
                         </Typography>
                     }
+                    {result && !result.value &&
+                        <Typography>
+                            Do not refresh, stay on this page to see status.
+                            All tasks after completion will apear on the uploads page.
+                        </Typography>}
                 </Grid>
 
                 <Grid item marginTop={1}>
@@ -99,6 +110,9 @@ function Inference(props) {
                         disabled={!result || !result.ready}
                         sx={{
                             marginLeft: 1
+                        }}
+                        onClick={() => {
+                            navigate('/matchdashboard')
                         }}
                     >
                         View Insights
@@ -126,7 +140,7 @@ function Inference(props) {
                 >
                     <Grid item xs={6}>
                         <CardMedia
-                            src={result.value[0]}
+                            src={result.value.detection_vid}
                             component={'video'}
                             autoPlay
                             controls
@@ -135,7 +149,7 @@ function Inference(props) {
                     <Grid item xs={6}>
                         <CardMedia
                             height={550}
-                            src={result.value[1]}
+                            src={result.value.map_vid}
                             component={'video'}
                             autoPlay
                             controls

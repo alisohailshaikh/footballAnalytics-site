@@ -3,7 +3,7 @@ import {
   LinearProgress, AlertTitle,
   Alert, Button,
   FormControl, Container,
-  Grid, Typography, 
+  Grid, Typography,
   Card, CardContent, CardActions
 } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react'
 import ResponsiveAppBar from '../NavBar/NavBarNew'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate } from 'react-router-dom'
-import OldUploads from './OldUploads'
 
 
 function UploadEventVideo(props) {
@@ -22,25 +21,46 @@ function UploadEventVideo(props) {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
   const [runs, setRuns] = useState([])
+  const [loaded, setLoaded] = useState(false)
   const storage = getStorage()
   const navigate = useNavigate()
 
+  const base_api = process.env.REACT_APP_INFER_API
+
+  const onView = async (taskid) => {
+    try {
+      const response = await fetch(`${base_api}/infer/events/result/${taskid}`)
+      if (response.ok) {
+        const res = await response.json()
+
+        if (res.successful && res.state === 'SUCCESS') {
+          localStorage.setItem(`event_upload_id`, res.value.upload_id)
+          localStorage.setItem(`event_task_id`, taskid)
+          navigate(`/event/${res.value.upload_id}`)
+        }
+      }
+    } catch (err) {
+
+    }
+  }
 
   useEffect(() => {
     let oldRuns = []
-    const videosRef = ref(storage, '/')
+    setRuns([])
+    const videosRef = ref(storage, '/events/')
     listAll(videosRef)
       .then(res => {
         res.prefixes.forEach((prefixRef) => {
           if (prefixRef.name !== 'upload') {
             oldRuns.push(prefixRef.name)
+            setRuns(oldarray => [...oldarray, prefixRef.name])
           }
         })
       })
       .catch(err => {
         console.log(err)
       })
-      setRuns(oldRuns)
+    setLoaded(true)
   }, [])
 
   // Set file after it's uploaded
@@ -108,7 +128,7 @@ function UploadEventVideo(props) {
           }}
         >
           <Grid item md={12}>
-            <Typography variant='h4' gutterBottom>Upload video</Typography>
+            <Typography variant='h4' gutterBottom>Upload video - Event Detection</Typography>
           </Grid>
 
           <Grid
@@ -205,7 +225,40 @@ function UploadEventVideo(props) {
           container
           spacing={2}
         >
-          <OldUploads items={runs} />
+          {loaded && runs.map((value, index) => {
+            return (
+              <Grid
+                key={value}
+                item
+                md={6}
+              >
+                <Card
+                  variant='outlined'
+                  sx={{
+                    background: '#201A2B',
+                    color: 'white'
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant='body'>
+                      Task id
+                    </Typography>
+                    <Typography>
+                      {value}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => onView(value)}
+                      size='small' variant='contained'>
+                      View
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            )
+          })}
+
         </Grid>
 
       </Container>

@@ -20,22 +20,48 @@ function UploadVideo(props) {
   const [uploadProgress, setUploadProgress] = useState(0)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [runs, setRuns] = useState([])
+  const [loaded, setLoaded] = useState(false)
   const storage = getStorage()
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   const videosRef = ref(storage, '')
-  //   listAll(videosRef)
-  //     .then(res => {
-  //       res.items.forEach((itemRef) => {
-  //         console.log(itemRef.name)
-  //       })
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //     })
-    
-  // }, [])
+  const base_api = process.env.REACT_APP_INFER_API
+
+  const onView = async (taskid) => {
+    try {
+      const response = await fetch(`${base_api}/infer/detect/result/${taskid}`)
+      if (response.ok) {
+        const res = await response.json()
+
+        if (res.successful && res.state === 'SUCCESS') {
+          localStorage.setItem('detect_upload_id', res.value.upload_id)
+          localStorage.setItem('detect_task_id', taskid)
+          navigate(`/detect/${res.value.upload_id}`)
+        }
+      }
+    } catch (err) {
+
+    }
+  }
+
+  useEffect(() => {
+    let oldRuns = []
+    setRuns([])
+    const videosRef = ref(storage, '/detection/')
+    listAll(videosRef)
+      .then(res => {
+        res.prefixes.forEach((prefixRef) => {
+          if (prefixRef.name !== 'upload') {
+            oldRuns.push(prefixRef.name)
+            setRuns(oldarray => [...oldarray, prefixRef.name])
+          }
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    setLoaded(true)
+  }, [])
 
   // Set file after it's uploaded
   const getFileUrl = (e) => {
@@ -102,7 +128,7 @@ function UploadVideo(props) {
           }}
         >
           <Grid item md={12}>
-            <Typography variant='h4' gutterBottom>Upload video</Typography>
+            <Typography variant='h4' gutterBottom>Upload video - Analysis and 2D Mapping</Typography>
           </Grid>
 
           <Grid
@@ -199,35 +225,40 @@ function UploadVideo(props) {
           container
           spacing={2}
         >
-          <Grid
-            item
-            md={6}
-          >
-            <Card
-              variant='outlined'
-              sx={{
-                background: '#201A2B',
-                color: 'white'
-              }}
-            >
-              <CardContent>
-                <Typography variant='body'>
-                  Task id
-                </Typography>
-                <Typography>
-                  ad91731d-48be-4c0e-aa04-dd7e2288aed1
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size='small' variant='contained'>
-                  View
-                </Button>
-                <Button size='small' variant='contained' color='error'>
-                  Delete
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
+          {loaded && runs.map((value, index) => {
+            return (
+              <Grid
+                key={value}
+                item
+                md={6}
+              >
+                <Card
+                  variant='outlined'
+                  sx={{
+                    background: '#201A2B',
+                    color: 'white'
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant='body'>
+                      Task id
+                    </Typography>
+                    <Typography>
+                      {value}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      onClick={() => onView(value)}
+                      size='small' variant='contained'>
+                      View
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            )
+          })}
+
         </Grid>
 
       </Container>

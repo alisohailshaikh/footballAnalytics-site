@@ -87,7 +87,7 @@ export default function App() {
             }
         />
         <Route
-            path="/inference"
+            path="/detect/:uploadId"
             element={
               <ProtectedRoute>
                 <Inference/> 
@@ -103,7 +103,7 @@ export default function App() {
             }
         />
         <Route
-            path="/event"
+            path="/event/:uploadId"
             element={
               <ProtectedRoute>
                 <Event/> 
