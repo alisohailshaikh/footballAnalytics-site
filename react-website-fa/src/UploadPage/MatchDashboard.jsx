@@ -11,11 +11,15 @@ import HomeDashboard from "./homeDashboard";
 import AwayDashboard from "./awayDashboard";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import topleft from "./topleft.png";
+import bottomleft from "./bottomleft.png";
+import topright from "./topright.png";
+import bottomright from "./bottomlright.png";
 
 
 
 export default function MatchDashboard() {
-  const [index,setIndex] = useState(0);
+  const [index,setIndex] = useState(1);
   const [result, setResult] = useState({})
   const [taskid, settaskid] = useState('')
   const [err, setErr] = useState('')
@@ -25,12 +29,21 @@ export default function MatchDashboard() {
   const base_api = process.env.REACT_APP_INFER_API
 
   const handleNext = () => {
-    setIndex((index%3)+1);
+    if (index == 3) {
+      console.log("exceeded");
+      setIndex(1);
+    } else {
+      setIndex(index + 1);
+    }
     console.log("from match");
     console.log(index)
   }
   const handlePrevious = () => {
-    setIndex((index%3)-1);
+    if (index == 1) {
+      setIndex(3);
+    } else {
+      setIndex(index - 1);
+    }
     console.log("from match");
     console.log(index)
   }
@@ -64,7 +77,7 @@ export default function MatchDashboard() {
         })
     }
     else {
-      navigate('/home')
+      // navigate('/home')
     }
   }, [])
 
@@ -73,7 +86,11 @@ export default function MatchDashboard() {
       <ResponsiveAppBar />
       <div className="homeaway">
       <div className="previous-left">
-        <Button className="previous-bt" variant="contained" onClick={handlePrevious}>Previous</Button>
+      <img src={topleft}></img>
+        <img src={bottomleft}></img>
+      <div className="previous-bt">
+        <Button variant="contained" onClick={handlePrevious}>Previous</Button>
+        </div>
         </div>
         <div className="db">
         <Tabs defaultValue={1}>
@@ -91,9 +108,9 @@ export default function MatchDashboard() {
             }}
           >
             <div className="home-db">
-             {loaded ? 
-             <HomeDashboard id={index} json={result}/> :
-             null}
+             {/* {loaded ?  */}
+             <HomeDashboard id={index} json={result}/> 
+             {/* null} */}
             </div>
           </TabPanel>
           <TabPanel
@@ -106,15 +123,19 @@ export default function MatchDashboard() {
             }}
           >
               <div className="away-db">
-             {result ?
-             <AwayDashboard id={index} json={result}/>:
-             null}
+             {/* {result ? */}
+             <AwayDashboard id={index} json={result}/>
+             {/* null} */}
             </div>
           </TabPanel>
         </Tabs>
         </div>
         <div className="next-right">
-        <Button className="next-bt" variant="contained" onClick={handleNext}>Next</Button>
+        <img src={topright}></img>
+          <img src={bottomright}></img>
+          <div className="next-bt">
+        <Button  variant="contained" onClick={handleNext}>Next</Button>
+        </div>
         </div>
       </div>
     </div>

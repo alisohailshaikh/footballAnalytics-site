@@ -1,7 +1,32 @@
 .db-page-container {
     display: flex;
-    flex-direction: column;
     justify-content: center; /* Center vertically */
     align-items: center; /* Center horizontally */
     height: 90vh; /* Set the container height to the full viewport height */
+}
+
+.dashbpard-page{
+    display: flex;
+}
+
+.dashboard-right {
+    flex:1;
+    margin-top: 200px;
+}
+.db-page-container{
+    flex: 1;
+}
+.dashboard-left{
+    flex: 1;
+    margin-top: 200px;
+}
+
+
+.dashboard-right img {
+    width: 200px;
+    height: auto;
+}
+.dashboard-left img {
+    width: 200px;
+    height: auto;
 }

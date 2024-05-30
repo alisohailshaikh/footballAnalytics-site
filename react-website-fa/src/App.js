@@ -1,14 +1,10 @@
 import './App.css';
 import Login from './Login/Login';
-import FirstPage from './FirstPage/FirstPage';
 import UploadVideo from './UploadPage/UploadVideo';
 import {Route,Routes } from 'react-router-dom';
 import FirstPagee from './FirstPage/FirstPagee';
-import EnterNames from './EnterNames/EnterName';
-import SearchBar from './SearchBar/SearchBar';
 import HomePage from './HomePage/HomePage';
 import Search from './SearchBar/Search';
-import ResponsiveAppBar from './NavBar/NavBarNew';
 import Register from './Register/Register';
 import Dashboard from './Dashboard/Dashboard';
 import Divider from './Divider/Divider';
@@ -28,7 +24,7 @@ export default function App() {
       <AuthProvider>
       <Routes> 
         <Route default exact path="/" element={<Login/>} />
-        <Route exact path="/matchdashboard" element={<MatchDashboard/>} />
+        <Route path="/matchdashboard" element={<ProtectedRoute><MatchDashboard/></ProtectedRoute>} />
         <Route exact path="/register" element={<Register/>} />
         <Route
             path="/home"

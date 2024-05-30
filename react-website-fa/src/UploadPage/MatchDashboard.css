@@ -6,19 +6,28 @@
 }
 
 .db {
-    flex:1
+    flex:1;
+    margin-top: 10px;
+    width:1000px
 }
 
 .previous-left, .next-right {
     flex:1;
-    display: flex;
+    margin-bottom: 450px;
+    margin-left: 50px;
     justify-content: center;
     align-items: center;
-  }
+}
+
+.previous-left img, .next-right img {
+    width: 200px;
+    height: auto;
+}
 
 .next-bt, .previous-bt{
     width:100px;
-    transform: translateY(100px);
+    margin-top: 50px;
+    margin-left: 50px;
 }
 
 
