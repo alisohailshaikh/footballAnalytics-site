@@ -15,6 +15,13 @@ import topleft from "./topleft.png";
 import bottomleft from "./bottomleft.png";
 import topright from "./topright.png";
 import bottomright from "./bottomlright.png";
+import analyse from './analyse.png'
+import analysediagram from './analysediagram.png'
+import analyseexplanation from './analyseexplanation.png'
+import toppressure from './toppressure.png'
+import toppressureexplanation from './topppressureexplanation.png'
+import toppressurediagram from './toppressurediagram.png'
+
 
 
 
@@ -81,13 +88,37 @@ export default function MatchDashboard() {
     }
   }, [])
 
+  const keys = [
+    {
+      index:1,
+      img1: topleft,
+      img2: bottomleft,
+      img4: topright,
+      img5: bottomright
+    },
+    {
+      index:2,
+      img1: analyse,
+      img2: analysediagram,
+      img3: analyseexplanation,
+      img4: toppressure,
+      img5: toppressurediagram,
+      img6: toppressureexplanation,
+
+    },
+    {
+      index:3
+    }
+  ]
+
   return (
     <div>
       <ResponsiveAppBar />
       <div className="homeaway">
       <div className="previous-left">
-      <img src={topleft}></img>
-        <img src={bottomleft}></img>
+        <img src={keys[index-1].img1}></img>
+        <img src={keys[index-1].img2}></img>
+        <img src={keys[index-1].img3}></img>
       <div className="previous-bt">
         <Button variant="contained" onClick={handlePrevious}>Previous</Button>
         </div>
@@ -131,8 +162,9 @@ export default function MatchDashboard() {
         </Tabs>
         </div>
         <div className="next-right">
-        <img src={topright}></img>
-          <img src={bottomright}></img>
+        <img src={keys[index-1].img4}></img>
+          <img src={keys[index-1].img5}></img>
+          <img src={keys[index-1].img6}></img>
           <div className="next-bt">
         <Button  variant="contained" onClick={handleNext}>Next</Button>
         </div>
