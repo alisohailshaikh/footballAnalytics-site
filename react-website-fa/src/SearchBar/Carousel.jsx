@@ -44,8 +44,9 @@ export default function Carousel() {
       .request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        setProgress(100);
+        setProgress(95);
         setTimeout(() => {
+          setProgress(100);
           navigate("/dashboard");
         }, 10000);
       })

@@ -1,8 +1,8 @@
 .homeaway {
     margin-top: 50px;
     display:flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
 }
 
 .db {
@@ -15,19 +15,21 @@
     flex:1;
     margin-bottom: 450px;
     margin-left: 50px;
-    justify-content: center;
-    align-items: center;
+    position: relative;
 }
 
 .previous-left img, .next-right img {
     width: 200px;
     height: auto;
+    position: relative;
+    margin-top: 10px;
+    top:100px
 }
 
 .next-bt, .previous-bt{
-    width:100px;
-    margin-top: 50px;
+    top: 500px;
     margin-left: 50px;
+    position: absolute;
 }
 
 
