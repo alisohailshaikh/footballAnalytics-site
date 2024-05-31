@@ -120,42 +120,42 @@ export default function MatchDashboard() {
           </div>
         </div>
         <div className="db">
-          <Tabs defaultValue={1}>
-            <TabsList>
-              <Tab value={1}>Home</Tab>
-              <Tab value={2}>Away</Tab>
-            </TabsList>
-            <TabPanel
-              value={1}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "auto",
-              }}
-            >
-              <div className="home-db">
-                {/* {loaded ?  */}
-                <HomeDashboard id={index} json={result} />
-                {/* null} */}
-              </div>
-            </TabPanel>
-            <TabPanel
-              value={2}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "auto",
-              }}
-            >
+        <Tabs defaultValue={1}>
+          <TabsList>
+            <Tab value={1}>Home</Tab>
+            <Tab value={2}>Away</Tab>
+          </TabsList>
+          <TabPanel
+            value={1}
+            sx={{
+              display:"flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "auto",
+            }}
+          >
+            <div className="home-db">
+             {loaded ? 
+             <HomeDashboard id={index} json={result}/> :
+              null }
+            </div>
+          </TabPanel>
+          <TabPanel
+            value={2}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "auto",
+            }}
+          >
               <div className="away-db">
-                {/* {result ? */}
-                <AwayDashboard id={index} json={result} />
-                {/* null} */}
-              </div>
-            </TabPanel>
-          </Tabs>
+             {result ?
+             <AwayDashboard id={index} json={result}/> :
+              null }
+            </div>
+          </TabPanel>
+        </Tabs>
         </div>
         <div className="next-right">
           <img src={keys[index - 1].img4}></img>
