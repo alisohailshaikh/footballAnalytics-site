@@ -1,0 +1,25 @@
+.about-us-cards{
+    display: flex;
+    padding-top: 40px;
+}
+
+.hamza img, .ali-s img, .maaz img, .ali-a img {
+    display: flex;
+    max-width: 400px; /* Set a maximum width */
+    height: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+.hamza img:hover,
+.ali-s img:hover,
+.maaz img:hover,
+.ali-a img:hover {
+    transform: scale(1.05); /* Slightly enlarge the image */
+    opacity: 1.9; /* Slightly change the opacity */
+}
+
+
+.hamza, .ali-s, .maaz, .ali-a {
+    flex: 1;
+}
