@@ -48,7 +48,7 @@ export default function Carousel() {
         setTimeout(() => {
           setProgress(100);
           navigate("/dashboard");
-        }, 10000);
+        }, 20000);
       })
       .catch((error) => {
         console.log(error);
