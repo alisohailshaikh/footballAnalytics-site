@@ -7,22 +7,21 @@ import alia from "./alia.png";
 import './About.css'
 
 export default function About() {
-    const linkedinUrl = "https://www.linkedin.com/in/alisohail-shaikh/"
     const revert0 = (event) => {
         event.preventDefault();
-        window.open(linkedinUrl, '_blank', 'noopener,noreferrer');
+        window.open("https://www.linkedin.com/in/hamza-shariq-8b86181b1/", '_blank', 'noopener,noreferrer');
       };
       const revert1 = (event) => {
         event.preventDefault();
-        window.location.href = linkedinUrl;
+        window.open("https://www.linkedin.com/in/alisohail-shaikh/", '_blank', 'noopener,noreferrer');
       };
       const revert2= (event) => {
         event.preventDefault();
-        window.location.href = linkedinUrl;
+        window.open("https://www.linkedin.com/in/maaz-adnan-65773721b/", '_blank', 'noopener,noreferrer');
       };
       const revert3= (event) => {
         event.preventDefault();
-        window.location.href = linkedinUrl;
+        window.open("https://www.linkedin.com/in/aliahmed58/", '_blank', 'noopener,noreferrer');
       };
   return (
     <div style={{ textAlign: "center" }}>
