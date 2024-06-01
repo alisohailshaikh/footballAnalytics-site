@@ -1,3 +1,7 @@
+body {
+    max-width: 99%;
+}
+
 .about-us-cards{
     display: flex;
     padding-top: 40px;
@@ -10,11 +14,15 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+img {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-.hamza img:hover,
-.ali-s img:hover,
-.maaz img:hover,
-.ali-a img:hover {
+.ali-a {
+    width: 500px;
+}
+
+img:hover {
     transform: scale(1.05); /* Slightly enlarge the image */
     opacity: 1.9; /* Slightly change the opacity */
 }

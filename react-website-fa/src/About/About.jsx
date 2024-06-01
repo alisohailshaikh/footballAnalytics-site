@@ -1,5 +1,5 @@
 import ResponsiveAppBar from "../NavBar/NavBarNew";
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import alis from "./alis.png";
 import maaz from "./maaz.png";
 import hamza from "./hamza.png";
@@ -44,20 +44,47 @@ export default function About() {
           ABOUT OUR TEAM
         </Typography>
       </div>
-      <div className="about-us-cards">
-        <div className="hamza">
-          <img src={hamza} onClick={revert0}></img>
-        </div>
-        <div className="ali-s">
-          <img src={alis} onClick={revert1}></img>
-        </div>
-        <div className="maaz">
-          <img src={maaz} onClick={revert2}></img>
-        </div>
-        <div className="ali-a">
-          <img src={alia} onClick={revert3}></img>
-        </div>
-      </div>
+      <Grid
+        container
+        alignContent={'center'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        direction={'row'}
+      >
+        <Grid
+          item
+          md={3}
+        >
+          <img 
+            width={400}
+          src={hamza} onClick={revert0}></img>
+        </Grid>
+        <Grid
+          item
+          md={3}
+        >
+          <img 
+            width={400}
+          src={alis} onClick={revert1}></img>
+        </Grid>
+        <Grid
+          item
+          md={3}
+        >
+          <img 
+            width={400}
+          src={maaz} onClick={revert2}></img>
+        </Grid>
+        <Grid
+          item
+          md={3}
+        >
+          <img 
+            width={380}
+          src={alia} onClick={revert3}></img>
+        </Grid>
+
+      </Grid>
     </div>
   );
 }
